@@ -1,6 +1,6 @@
 <%- include("partials/navbar") %>
 <main>
-<form action="/upload-file?folder=<%=folder.id%>" method="post" enctype="multipart/form-data">
+<form action="/files/new?folderId=<%=folder.id%>" method="post" enctype="multipart/form-data" class="file-form">
     <input type="file" name="uploadedFile" />
     <button type="submit">Upload</button>
 </form>

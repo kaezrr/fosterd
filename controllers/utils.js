@@ -26,3 +26,19 @@ exports.checkCorrectUserFolder = async (req, res, next) => {
   }
   return res.status(403).send("Unauthorized action!");
 };
+
+exports.checkCorrectUserFile = async (req, res, next) => {
+  const file = await db.file.findUnique({
+    where: { id: parseInt(req.params.id) },
+    include: { folder: true },
+  });
+
+  if (!file) {
+    return res.status(404).send("File not found!");
+  }
+
+  if (file.folder.userId === req.user.id) {
+    return next();
+  }
+  return res.status(403).send("Unauthorized action!");
+};

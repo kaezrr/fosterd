@@ -86,7 +86,8 @@ main {
   align-items: center;
 }
 
-.folder-form {
+.folder-form,
+.file-form {
   display: flex;
   width: 3em;
 }

@@ -30,8 +30,9 @@ model Folder {
 }
 
 model File {
-  id       Int    @id @default(autoincrement())
-  name     String @unique
-  folderId Int
-  folder   Folder @relation(fields: [folderId], references: [id])
+  id           Int    @id @default(autoincrement())
+  originalName String
+  storedName   String @unique
+  folderId     Int
+  folder       Folder @relation(fields: [folderId], references: [id])
 }
