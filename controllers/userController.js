@@ -59,7 +59,19 @@ exports.userSignUpPost = [
 
 exports.showRoot = [
   checkUserAuthentication,
-  (req, res) => res.render("index", { title: "Your Files" }),
+  async (req, res) => {
+    let errors = req.query.errors;
+    if (errors && !Array.isArray(errors)) {
+      errors = [errors];
+    }
+    if (errors) {
+      errors = errors.map((e) => ({ msg: e }));
+    }
+    const folders = await db.folder.findMany({
+      where: { userId: req.user.id },
+    });
+    res.render("index", { title: "Home", errors, folders });
+  },
 ];
 
 exports.userLogOut = (req, res, next) => {

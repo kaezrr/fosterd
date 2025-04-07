@@ -5,6 +5,7 @@ const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const db = require("./prisma/prisma");
 const passport = require("./controllers/passport");
 const userRouter = require("./routes/userRouter");
+const folderRouter = require("./routes/folderRouter");
 const expressLayouts = require("express-ejs-layouts");
 
 const App = express();
@@ -31,6 +32,7 @@ App.use(
 App.use(passport.session());
 App.use(express.urlencoded({ extended: false }));
 App.use("/", userRouter);
+App.use("/", folderRouter);
 
 const PORT = process.env.PORT || 3000;
 App.listen(PORT, () => console.log(`App running on port ${PORT}`));

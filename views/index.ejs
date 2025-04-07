@@ -1,8 +1,22 @@
 <%- include("partials/navbar") %>
 <main>
-<h1>Your Files</h1>
-<form method="post" action="/new-folder" class="folder-form">
-<input type="text" name="folderName" placeholder="Folder Name">
-<button type="submit">Add Folder</button>
-</form>
+    <% if(folders.length > 0) { %>
+    <h1>Your Folders</h1>
+    <div class="folder">
+        <% folders.forEach(folder => { %>
+        <h3><%= folder.name %></h3>
+        <p>5 items</p>
+        <a href="/delete-folder?id=<%=folder.id%>">
+            <button>delete</button>
+        </a>
+        <% }); %>
+    </div>
+    <% } else { %>
+    <h1>You don't have any folders...</h1>
+    <% } %>
+    <form method="post" action="/new-folder" class="folder-form">
+        <input type="text" name="folderName" placeholder="Folder Name">
+        <button type="submit">Add Folder</button>
+    </form>
+    <%- include("partials/errors") %>
 </main>
