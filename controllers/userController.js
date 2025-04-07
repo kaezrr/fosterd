@@ -69,6 +69,7 @@ exports.showRoot = [
     }
     const folders = await db.folder.findMany({
       where: { userId: req.user.id },
+      include: { files: true },
     });
     res.render("index", { title: "Home", errors, folders });
   },

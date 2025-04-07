@@ -93,7 +93,7 @@ main {
 
 .folder {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
   align-items: center;
   row-gap: 1em;
   column-gap: 3em;

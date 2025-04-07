@@ -26,4 +26,12 @@ model Folder {
   name   String @unique
   userId Int
   user   User   @relation(fields: [userId], references: [id])
+  files  File[]
+}
+
+model File {
+  id       Int    @id @default(autoincrement())
+  name     String @unique
+  folderId Int
+  folder   Folder @relation(fields: [folderId], references: [id])
 }

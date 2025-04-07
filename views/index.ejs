@@ -4,11 +4,12 @@
     <h1>Your Folders</h1>
     <div class="folder">
         <% folders.forEach(folder => { %>
-        <h3><%= folder.name %></h3>
-        <p>5 items</p>
+        <a href="/view-folder?id=<%=folder.id%>"><h2><%= folder.name %></h2></a>
+        <p><%=folder.files.length%> items</p>
         <a href="/delete-folder?id=<%=folder.id%>">
-            <button>delete</button>
+            <button onclick="return confirm('Are you sure?');">Delete</button>
         </a>
+        <button onclick="editFolder('<%= folder.id %>')">Edit</button>
         <% }); %>
     </div>
     <% } else { %>
@@ -20,3 +21,11 @@
     </form>
     <%- include("partials/errors") %>
 </main>
+<script>
+  function editFolder(id) {
+    const newName = prompt('Enter new name');
+    if (newName) {
+      window.location.href = `/edit-folder?id=${id}&newName=${encodeURIComponent(newName)}`;
+    }
+  }
+</script>
