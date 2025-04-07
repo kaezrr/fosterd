@@ -1,10 +1,24 @@
-const { Router } = require("express");
 const folderController = require("../controllers/folderController");
+const {
+  checkUserAuthentication,
+  checkCorrectUserFolder,
+} = require("../controllers/utils");
 
-const folderRouter = new Router();
+const folderRouter = require("express").Router();
 
-folderRouter.post("/new-folder", folderController.createFolder);
-folderRouter.get("/delete-folder", folderController.deleteFolder);
-folderRouter.get("/edit-folder", folderController.editFolder);
+folderRouter.use(checkUserAuthentication);
+
+folderRouter.post("/new", folderController.createFolder);
+folderRouter.get("/:id", checkCorrectUserFolder, folderController.viewFolder);
+folderRouter.get(
+  "/:id/edit",
+  checkCorrectUserFolder,
+  folderController.editFolder,
+);
+folderRouter.get(
+  "/:id/delete",
+  checkCorrectUserFolder,
+  folderController.deleteFolder,
+);
 
 module.exports = folderRouter;

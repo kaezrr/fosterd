@@ -13,8 +13,9 @@ exports.checkUserAuthentication = (req, res, next) => {
 };
 
 exports.checkCorrectUserFolder = async (req, res, next) => {
-  const { id } = req.query;
-  const folder = await db.folder.findUnique({ where: { id: parseInt(id) } });
+  const folder = await db.folder.findUnique({
+    where: { id: parseInt(req.params.id) },
+  });
 
   if (!folder) {
     return res.status(404).send("Folder not found!");

@@ -6,6 +6,7 @@ const db = require("./prisma/prisma");
 const passport = require("./controllers/passport");
 const userRouter = require("./routes/userRouter");
 const folderRouter = require("./routes/folderRouter");
+const fileRouter = require("./routes/fileRouter");
 const expressLayouts = require("express-ejs-layouts");
 
 const App = express();
@@ -32,7 +33,8 @@ App.use(
 App.use(passport.session());
 App.use(express.urlencoded({ extended: false }));
 App.use("/", userRouter);
-App.use("/", folderRouter);
+App.use("/folders", folderRouter);
+App.use("/files", fileRouter);
 
 const PORT = process.env.PORT || 3000;
 App.listen(PORT, () => console.log(`App running on port ${PORT}`));

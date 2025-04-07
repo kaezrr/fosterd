@@ -4,9 +4,9 @@
     <h1>Your Folders</h1>
     <div class="folder">
         <% folders.forEach(folder => { %>
-        <a href="/view-folder?id=<%=folder.id%>"><h2><%= folder.name %></h2></a>
+        <a href="/folders/<%=folder.id%>"><h2><%= folder.name %></h2></a>
         <p><%=folder.files.length%> items</p>
-        <a href="/delete-folder?id=<%=folder.id%>">
+        <a href="/folders/<%=folder.id%>/delete">
             <button onclick="return confirm('Are you sure?');">Delete</button>
         </a>
         <button onclick="editFolder('<%= folder.id %>')">Edit</button>
@@ -15,7 +15,7 @@
     <% } else { %>
     <h1>You don't have any folders...</h1>
     <% } %>
-    <form method="post" action="/new-folder" class="folder-form">
+    <form method="post" action="/folders/new" class="folder-form">
         <input type="text" name="folderName" placeholder="Folder Name">
         <button type="submit">Add Folder</button>
     </form>
@@ -25,7 +25,7 @@
   function editFolder(id) {
     const newName = prompt('Enter new name');
     if (newName) {
-      window.location.href = `/edit-folder?id=${id}&newName=${encodeURIComponent(newName)}`;
+      window.location.href = `/folders/${id}/edit?newName=${encodeURIComponent(newName)}`;
     }
   }
 </script>

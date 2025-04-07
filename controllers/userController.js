@@ -1,5 +1,4 @@
 const passport = require("./passport");
-const { checkUserAuthentication } = require("./utils");
 const { body, validationResult } = require("express-validator");
 const db = require("../prisma/prisma");
 const bcrypt = require("bcryptjs");
@@ -57,23 +56,20 @@ exports.userSignUpPost = [
   },
 ];
 
-exports.showRoot = [
-  checkUserAuthentication,
-  async (req, res) => {
-    let errors = req.query.errors;
-    if (errors && !Array.isArray(errors)) {
-      errors = [errors];
-    }
-    if (errors) {
-      errors = errors.map((e) => ({ msg: e }));
-    }
-    const folders = await db.folder.findMany({
-      where: { userId: req.user.id },
-      include: { files: true },
-    });
-    res.render("index", { title: "Home", errors, folders });
-  },
-];
+exports.showRoot = async (req, res) => {
+  let errors = req.query.errors;
+  if (errors && !Array.isArray(errors)) {
+    errors = [errors];
+  }
+  if (errors) {
+    errors = errors.map((e) => ({ msg: e }));
+  }
+  const folders = await db.folder.findMany({
+    where: { userId: req.user.id },
+    include: { files: true },
+  });
+  res.render("index", { title: "Home", errors, folders });
+};
 
 exports.userLogOut = (req, res, next) => {
   req.logout((err) => {

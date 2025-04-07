@@ -39,6 +39,13 @@ input {
   flex: 1;
 }
 
+input::file-selector-button {
+  font-family: "Inconsolata", monospace;
+  background-color: var(--col-dark);
+  color: var(--col-light);
+  border-color: var(--col-light);
+}
+
 fieldset > button {
   margin-top: 1em;
 }

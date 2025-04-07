@@ -1,12 +1,11 @@
 const userController = require("../controllers/userController");
-const { Router } = require("express");
-const { setUser } = require("../controllers/utils");
+const { setUser, checkUserAuthentication } = require("../controllers/utils");
 
-const userRouter = new Router();
+const userRouter = require("express").Router();
 
 userRouter.use(setUser);
 
-userRouter.get("/", userController.showRoot);
+userRouter.get("/", checkUserAuthentication, userController.showRoot);
 userRouter.get("/log-out", userController.userLogOut);
 
 userRouter.get("/log-in", userController.userLogInGet);

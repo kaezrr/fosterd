@@ -1,4 +1,3 @@
-const { checkUserAuthentication, checkCorrectUserFolder } = require("./utils");
 const { body, query, validationResult } = require("express-validator");
 const db = require("../prisma/prisma");
 
@@ -22,7 +21,6 @@ const validateUpdateFolder = [
 ];
 
 exports.createFolder = [
-  checkUserAuthentication,
   validateCreateFolder,
   async (req, res) => {
     const errors = validationResult(req);
@@ -45,21 +43,15 @@ exports.createFolder = [
   },
 ];
 
-exports.deleteFolder = [
-  checkUserAuthentication,
-  checkCorrectUserFolder,
-  async (req, res) => {
-    await db.folder.delete({
-      where: { id: parseInt(req.query.id) },
-    });
-    res.redirect("/");
-  },
-];
+exports.deleteFolder = async (req, res) => {
+  await db.folder.delete({
+    where: { id: parseInt(req.params.id) },
+  });
+  res.redirect("/");
+};
 
 exports.editFolder = [
   validateUpdateFolder,
-  checkUserAuthentication,
-  checkCorrectUserFolder,
   async (req, res) => {
     const errors = validationResult(req);
     const errorString = errors
@@ -71,7 +63,7 @@ exports.editFolder = [
       return res.redirect("/?" + errorString);
     }
     await db.folder.update({
-      where: { id: parseInt(req.query.id) },
+      where: { id: parseInt(req.params.id) },
       data: {
         name: req.query.newName,
       },
@@ -79,3 +71,11 @@ exports.editFolder = [
     res.redirect("/");
   },
 ];
+
+exports.viewFolder = async (req, res) => {
+  const folder = await db.folder.findUnique({
+    where: { id: parseInt(req.params.id) },
+    include: { files: true },
+  });
+  res.render("folder", { title: "Folder View", folder });
+};
