@@ -1,11 +1,15 @@
-<form action="/log-in" method="post">
+<main class="not-logged">
+<h1>Sign up to Fosterd.</h1>
+<form action="/sign-up" method="post">
     <fieldset>
         <label for="username">Username</label>
-        <input type="text" id="username" name="username">
+        <input type="text" id="username" name="username" required>
         <label for="password">Password</label>
-        <input type="password" id="password" name="password">
+        <input type="password" id="password" name="password" required>
         <label for="confirm">Confirm Password</label>
-        <input type="password" id="password" name="password">
+        <input type="password" id="confirm" name="confirm" required>
         <button>Sign up</button>
+        <%- include("partials/errors") %>
     </fieldset>
 </form>
+</main>

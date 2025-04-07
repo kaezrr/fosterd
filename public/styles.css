@@ -1,19 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap");
 
+:root {
+  --col-dark: #210f37;
+  --col-light: #dca06d;
+}
+
 * {
   box-sizing: border-box;
   font-family: "Inconsolata", monospace;
-  background-color: #210f37;
-  color: #dca06d;
-  border-color: #dca06d;
+  background-color: var(--col-dark);
+  color: var(--col-light);
+  border-color: var(--col-light);
 }
 
 body {
   min-height: 80vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  justify-content: start;
+}
+
+form {
+  min-width: 25%;
 }
 
 fieldset {
@@ -30,7 +38,7 @@ fieldset > button {
   margin-top: 1em;
 }
 
-.errors {
+.errors > li {
   color: red;
 }
 
@@ -40,4 +48,42 @@ label:not(:first-child) {
 
 a {
   text-decoration: none;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.5em 1em;
+}
+
+nav,
+nav * {
+  margin: 0px;
+  background-color: var(--col-light);
+  color: var(--col-dark);
+}
+
+main {
+  flex: 1;
+  padding: 0 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.folder-form {
+  display: flex;
+}
+
+.folder-form > input {
+  width: 10em;
+}
+
+.not-logged {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

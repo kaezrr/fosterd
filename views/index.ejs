@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/output.css">
-    <title><%= title %></title>
-</head>
-<body>
-    <h1><%= title %></h1>
-</body>
-</html>
+<%- include("partials/navbar") %>
+<main>
+<h1>Your Files</h1>
+<form method="post" action="/new-folder" class="folder-form">
+<input type="text" name="folderName" placeholder="Folder Name">
+<button type="submit">Add Folder</button>
+</form>
+</main>

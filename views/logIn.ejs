@@ -1,4 +1,6 @@
-<form action="/sign-up" method="post">
+<main class="not-logged">
+<h1>Log in to Fosterd.</h1>
+<form action="/log-in" method="post">
     <fieldset>
         <label for="username">Username</label>
         <input type="text" id="username" name="username">
@@ -6,5 +8,7 @@
         <input type="password" id="password" name="password">
         <button>Log in</button>
         <p>Don't have an account? <a href="/sign-up">sign up</a></p>
+        <%- include("partials/errors") %>
     </fieldset>
 </form>
+</main>
