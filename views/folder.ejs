@@ -4,10 +4,10 @@
     <h1>Your Files</h1>
     <div class="file">
         <% folder.files.forEach(file => { %>
-        <a href="/files/<%=file.id%>/download"><h2><%= file.originalName %></h2></a>
+        <a href="/files/<%=file.id%>/download?folderId=<%=folder.id%>"><h2>&#128462; <%= file.originalName %></h2></a>
         <p><%=file.formattedSize%></p>
         <p><%=file.formattedDate%></p>
-        <a href="/files/<%=file.id%>/delete">
+        <a href="/files/<%=file.id%>/delete?folderId=<%=folder.id%>">
             <button onclick="return confirm('Are you sure?');">Delete</button>
         </a>
         <button onclick="editFolder('<%= folder.id %>')">Edit</button>
@@ -17,7 +17,8 @@
     <h1>There are no files here...</h1>
     <% } %>
     <form action="/files/new?folderId=<%=folder.id%>" method="post" enctype="multipart/form-data" class="file-form">
-    <input type="file" name="uploadedFile" />
-    <button type="submit">Upload</button>
-</form>
+        <input type="file" name="uploadedFile" />
+        <button type="submit">Upload</button>
+    </form>
+    <%- include("partials/errors") %>
 </main>

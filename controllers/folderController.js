@@ -84,6 +84,14 @@ function getFormatSize(size) {
 }
 
 exports.viewFolder = async (req, res) => {
+  let errors = req.query.errors;
+  if (errors && !Array.isArray(errors)) {
+    errors = [errors];
+  }
+  if (errors) {
+    errors = errors.map((e) => ({ msg: e }));
+  }
+
   const folder = await db.folder.findUnique({
     where: { id: parseInt(req.params.id) },
     include: { files: true },
@@ -93,5 +101,6 @@ exports.viewFolder = async (req, res) => {
     formattedDate: format(file.uploadTime, "dd MMM yy"),
     formattedSize: getFormatSize(file.size),
   }));
-  res.render("folder", { title: folder.name, folder });
+
+  res.render("folder", { title: folder.name, folder, errors });
 };

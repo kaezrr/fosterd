@@ -37,8 +37,13 @@ exports.checkCorrectUserFile = async (req, res, next) => {
     return res.status(404).send("File not found!");
   }
 
+  if (file.folderId.toString() !== req.query.folderId) {
+    return res.status(404).send("Incorrect folder!");
+  }
+
   if (file.folder.userId === req.user.id) {
     return next();
   }
+
   return res.status(403).send("Unauthorized action!");
 };
