@@ -27,6 +27,10 @@ exports.uploadFile = [
   },
   async (req, res) => {
     const folderId = parseInt(req.query.folderId);
+    if (!req.file) {
+      req.flash("error", "Cannot upload empty files!");
+      return req.session.save(() => res.redirect(`/folders/${folderId}`));
+    }
     const { originalname, size, buffer, mimetype } = req.file;
     const storedName = uuid4() + path.extname(originalname);
 
