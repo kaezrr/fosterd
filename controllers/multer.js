@@ -1,16 +1,12 @@
+require("dotenv").config();
 const multer = require("multer");
-const path = require("path");
-const { v4: uuidv4 } = require("uuid");
+const { createClient } = require("@supabase/supabase-js");
 
-const storage = multer.diskStorage({
-  destination: "./uploads",
-  filename: (req, file, cb) => {
-    const storedName = uuidv4() + path.extname(file.originalname);
-    cb(null, storedName);
-  },
-});
+const { SUPABASE_KEY, PROJECT_URL } = process.env;
 
 exports.upload = multer({
-  storage,
+  storage: multer.memoryStorage(),
   limits: { fileSize: 1024 * 1024 * 50 },
 });
+
+exports.supabase = createClient(PROJECT_URL, SUPABASE_KEY);

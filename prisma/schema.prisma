@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Session {
@@ -23,7 +24,7 @@ model User {
 
 model Folder {
   id     Int    @id @default(autoincrement())
-  name   String @unique
+  name   String
   userId Int
   user   User   @relation(fields: [userId], references: [id])
   files  File[]
@@ -36,5 +37,5 @@ model File {
   size         Int
   uploadTime   DateTime
   folderId     Int
-  folder       Folder   @relation(fields: [folderId], references: [id])
+  folder       Folder   @relation(fields: [folderId], references: [id], onDelete: Cascade)
 }

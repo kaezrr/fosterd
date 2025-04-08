@@ -10,7 +10,6 @@
         <a href="/files/<%=file.id%>/delete?folderId=<%=folder.id%>">
             <button onclick="return confirm('Are you sure?');">Delete</button>
         </a>
-        <button onclick="editFolder('<%= folder.id %>')">Edit</button>
         <% }); %>
     </div>
     <% } else { %>

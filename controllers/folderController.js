@@ -1,24 +1,18 @@
 const { body, query, validationResult } = require("express-validator");
 const db = require("../prisma/prisma");
 const { format } = require("date-fns");
+const { supabase } = require("./multer");
 
 const validateCreateFolder = [
   body("folderName")
     .isLength({ min: 1, max: 16 })
-    .withMessage("Folder name has to be 1-16 characters.")
-    .custom(async (value) => {
-      const exists = await db.folder.findUnique({ where: { name: value } });
-      if (exists) throw new Error("Folder name already exists!");
-      return true;
-    }),
+    .withMessage("Folder name has to be 1-16 characters."),
 ];
 
 const validateUpdateFolder = [
-  query("newName").custom(async (value) => {
-    const exists = await db.folder.findUnique({ where: { name: value } });
-    if (exists) throw new Error("Folder name already exists!");
-    return true;
-  }),
+  query("newName")
+    .isLength({ min: 1, max: 16 })
+    .withMessage("Folder name has to be 1-16 characters."),
 ];
 
 exports.createFolder = [
@@ -45,6 +39,21 @@ exports.createFolder = [
 ];
 
 exports.deleteFolder = async (req, res) => {
+  const folder = await db.folder.findUnique({
+    where: { id: parseInt(req.params.id) },
+    include: { files: true },
+  });
+
+  if (folder.files.length > 0) {
+    const { data, error } = await supabase.storage
+      .from("files")
+      .remove(folder.files.map((f) => f.storedName));
+
+    if (error) {
+      return res.status(500).send(error.message);
+    }
+  }
+
   await db.folder.delete({
     where: { id: parseInt(req.params.id) },
   });
@@ -88,6 +97,7 @@ exports.viewFolder = async (req, res) => {
   if (errors && !Array.isArray(errors)) {
     errors = [errors];
   }
+
   if (errors) {
     errors = errors.map((e) => ({ msg: e }));
   }
@@ -96,6 +106,7 @@ exports.viewFolder = async (req, res) => {
     where: { id: parseInt(req.params.id) },
     include: { files: true },
   });
+
   folder.files = folder.files.map((file) => ({
     ...file,
     formattedDate: format(file.uploadTime, "dd MMM yy"),

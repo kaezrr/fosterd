@@ -9,7 +9,10 @@ fileRouter.use(checkUserAuthentication);
 
 fileRouter.post("/new", fileController.uploadFile);
 fileRouter.get("/:id/delete", checkCorrectUserFile, fileController.deleteFile);
-fileRouter.get("/:id/edit", checkCorrectUserFile);
-fileRouter.get("/:id/download", checkCorrectUserFile);
+fileRouter.get(
+  "/:id/download",
+  checkCorrectUserFile,
+  fileController.downloadFile,
+);
 
 module.exports = fileRouter;
