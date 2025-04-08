@@ -8,6 +8,7 @@ const userRouter = require("./routes/userRouter");
 const folderRouter = require("./routes/folderRouter");
 const fileRouter = require("./routes/fileRouter");
 const expressLayouts = require("express-ejs-layouts");
+const flash = require("connect-flash");
 
 const App = express();
 App.set("view engine", "ejs");
@@ -32,6 +33,7 @@ App.use(
 );
 App.use(passport.session());
 App.use(express.urlencoded({ extended: false }));
+App.use(flash());
 App.use("/", userRouter);
 App.use("/folders", folderRouter);
 App.use("/files", fileRouter);

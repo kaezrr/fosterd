@@ -19,13 +19,12 @@ exports.createFolder = [
   validateCreateFolder,
   async (req, res) => {
     const errors = validationResult(req);
-    const errorString = errors
-      .array()
-      .map((err) => `errors=${encodeURIComponent(err.msg)}`)
-      .join("&");
-
     if (!errors.isEmpty()) {
-      return res.redirect("/?" + errorString);
+      req.flash(
+        "error",
+        errors.array().map((e) => e.msg),
+      );
+      return req.session.save(() => res.redirect("/"));
     }
 
     await db.folder.create({
@@ -64,13 +63,12 @@ exports.editFolder = [
   validateUpdateFolder,
   async (req, res) => {
     const errors = validationResult(req);
-    const errorString = errors
-      .array()
-      .map((err) => `errors=${encodeURIComponent(err.msg)}`)
-      .join("&");
-
     if (!errors.isEmpty()) {
-      return res.redirect("/?" + errorString);
+      req.flash(
+        "error",
+        errors.array().map((e) => e.msg),
+      );
+      return req.session.save(() => res.redirect("/"));
     }
     await db.folder.update({
       where: { id: parseInt(req.params.id) },
@@ -93,15 +91,7 @@ function getFormatSize(size) {
 }
 
 exports.viewFolder = async (req, res) => {
-  let errors = req.query.errors;
-  if (errors && !Array.isArray(errors)) {
-    errors = [errors];
-  }
-
-  if (errors) {
-    errors = errors.map((e) => ({ msg: e }));
-  }
-
+  const errors = req.flash("error").map((msg) => ({ msg }));
   const folder = await db.folder.findUnique({
     where: { id: parseInt(req.params.id) },
     include: { files: true },

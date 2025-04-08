@@ -18,7 +18,7 @@ const validateSignUp = [
       return true;
     }),
   body("password")
-    .isLength({ min: 1, max: 20 })
+    .isLength({ min: 8, max: 20 })
     .withMessage("Password must be 8-20 characters"),
   body("confirm")
     .custom((value, { req }) => value === req.body.password)
@@ -26,11 +26,7 @@ const validateSignUp = [
 ];
 
 exports.userLogInGet = (req, res) => {
-  let errors = null;
-  if (req.session.messages) {
-    errors = req.session.messages.map((error) => ({ msg: error }));
-    delete req.session.messages;
-  }
+  const errors = req.flash("error").map((msg) => ({ msg }));
   res.render("logIn", { title: "Log in", errors });
 };
 
@@ -57,13 +53,7 @@ exports.userSignUpPost = [
 ];
 
 exports.showRoot = async (req, res) => {
-  let errors = req.query.errors;
-  if (errors && !Array.isArray(errors)) {
-    errors = [errors];
-  }
-  if (errors) {
-    errors = errors.map((e) => ({ msg: e }));
-  }
+  const errors = req.flash("error").map((msg) => ({ msg }));
   const folders = await db.folder.findMany({
     where: { userId: req.user.id },
     include: { files: true },
@@ -80,8 +70,18 @@ exports.userLogOut = (req, res, next) => {
   });
 };
 
-exports.userLogInPost = passport.authenticate("local", {
-  successRedirect: "/",
-  failureRedirect: "/log-in",
-  failureMessage: true,
-});
+exports.userLogInPost = (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) return next(err);
+
+    if (!user) {
+      req.flash("error", info.message);
+      return req.session.save(() => res.redirect("/log-in"));
+    }
+
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      return res.redirect("/");
+    });
+  })(req, res, next);
+};
