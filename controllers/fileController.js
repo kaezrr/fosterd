@@ -4,11 +4,13 @@ const db = require("../prisma/prisma");
 exports.uploadFile = [
   upload.single("uploadedFile"),
   async (req, res) => {
-    const fileName = req.file.originalname;
     const folderId = parseInt(req.query.folderId);
     await db.file.create({
       data: {
-        name: fileName,
+        originalName: req.file.originalname,
+        storedName: req.file.filename,
+        size: req.file.size,
+        uploadTime: new Date(),
         folderId: folderId,
       },
     });

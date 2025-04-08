@@ -103,8 +103,32 @@ main {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
   align-items: center;
-  row-gap: 1em;
-  column-gap: 3em;
+  justify-items: center;
+  gap: 1em;
   border: 1px solid var(--col-light);
   padding: 1em;
+}
+
+.folder h2,
+.file h2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.folder h2 {
+  width: 15ch;
+}
+
+.file h2 {
+  width: 24ch;
+}
+
+.file {
+  width: 60%;
+  display: grid;
+  grid-template-columns: 3fr repeat(4, 1fr);
+  align-items: center;
+  justify-items: center;
+  border: 1px solid var(--col-light);
 }

@@ -1,6 +1,22 @@
 <%- include("partials/navbar") %>
 <main>
-<form action="/files/new?folderId=<%=folder.id%>" method="post" enctype="multipart/form-data" class="file-form">
+    <% if(folder.files.length > 0) { %>
+    <h1>Your Files</h1>
+    <div class="file">
+        <% folder.files.forEach(file => { %>
+        <a href="/files/<%=file.id%>/download"><h2><%= file.originalName %></h2></a>
+        <p><%=file.formattedSize%></p>
+        <p><%=file.formattedDate%></p>
+        <a href="/files/<%=file.id%>/delete">
+            <button onclick="return confirm('Are you sure?');">Delete</button>
+        </a>
+        <button onclick="editFolder('<%= folder.id %>')">Edit</button>
+        <% }); %>
+    </div>
+    <% } else { %>
+    <h1>There are no files here...</h1>
+    <% } %>
+    <form action="/files/new?folderId=<%=folder.id%>" method="post" enctype="multipart/form-data" class="file-form">
     <input type="file" name="uploadedFile" />
     <button type="submit">Upload</button>
 </form>

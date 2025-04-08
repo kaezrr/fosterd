@@ -1,5 +1,6 @@
 const { body, query, validationResult } = require("express-validator");
 const db = require("../prisma/prisma");
+const { format } = require("date-fns");
 
 const validateCreateFolder = [
   body("folderName")
@@ -72,10 +73,25 @@ exports.editFolder = [
   },
 ];
 
+function getFormatSize(size) {
+  const units = ["B", "KB", "MB", "GB", "TB", "PB"];
+  let i = 0;
+  while (size >= 1024 && i < units.length - 1) {
+    size /= 1024;
+    ++i;
+  }
+  return `${size.toFixed(1)}${units[i]}`;
+}
+
 exports.viewFolder = async (req, res) => {
   const folder = await db.folder.findUnique({
     where: { id: parseInt(req.params.id) },
     include: { files: true },
   });
-  res.render("folder", { title: "Folder View", folder });
+  folder.files = folder.files.map((file) => ({
+    ...file,
+    formattedDate: format(file.uploadTime, "dd MMM yy"),
+    formattedSize: getFormatSize(file.size),
+  }));
+  res.render("folder", { title: folder.name, folder });
 };

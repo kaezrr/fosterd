@@ -4,7 +4,7 @@
     <h1>Your Folders</h1>
     <div class="folder">
         <% folders.forEach(folder => { %>
-        <a href="/folders/<%=folder.id%>"><h2><%= folder.name %></h2></a>
+        <a href="/folders/<%=folder.id%>" class="folder-name"><h2>&#128448; <%= folder.name %></h2></a>
         <p><%=folder.files.length%> items</p>
         <a href="/folders/<%=folder.id%>/delete">
             <button onclick="return confirm('Are you sure?');">Delete</button>
