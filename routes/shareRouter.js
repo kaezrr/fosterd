@@ -6,14 +6,14 @@ const {
 } = require("../controllers/utils");
 
 shareRouter.get(
-  "/create",
+  "/create/:id",
   checkUserAuthentication,
   checkCorrectUserFolder,
   shareController.createShareLinkGet,
 );
 
 shareRouter.post(
-  "/create",
+  "/create/:id",
   checkUserAuthentication,
   checkCorrectUserFolder,
   shareController.createShareLinkPost,

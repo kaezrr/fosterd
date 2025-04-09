@@ -1,0 +1,17 @@
+<%- include("partials/navbar") %>
+<main>
+    <h1>Create a sharelink for <%= folder.name %></h1>
+    <form action="/share/create/<%=folder.id%>" method="post" class="share-form">
+        <fieldset>
+            <label for="validFor">Valid For</label>
+            <select name="validFor" id="validFor">
+                <option value="3600000">1 hour</option>
+                <option value="21600000">6 hours</option>
+                <option value="86400000">1 day</option>
+                <option value="259200000">3 days</option>
+                <option value="604800000">1 week</option>
+            </select>
+            <button>Create Link</button>
+        </fieldset>
+    </form>
+</main>
