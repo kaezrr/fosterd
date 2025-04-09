@@ -3,6 +3,7 @@
 :root {
   --col-dark: #210f37;
   --col-light: #dca06d;
+  --col-links: #1958a6;
 }
 
 * {
@@ -133,6 +134,14 @@ main {
   border: 1px solid var(--col-light);
 }
 
+.file.shared {
+  grid-template-columns: 2fr repeat(3, 1fr);
+}
+
+.hover-link {
+  color: var(--col-links);
+}
+
 .hover-link:hover {
   text-decoration: underline;
 }
@@ -146,7 +155,7 @@ button {
 
 button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.1); /* soft white glow */
+  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.1);
 }
 
 button:active {
@@ -154,14 +163,22 @@ button:active {
   box-shadow: 0 2px 6px rgba(255, 255, 255, 0.08);
 }
 
-.share-form > fieldset {
+fieldset.share-form {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 1em 0em;
+  padding: 1em;
   gap: 1em;
 }
 
-.share-form button {
+fieldset.share-form button {
   margin: 0;
+}
+
+fieldset.share-form.link {
+  min-width: 70ch;
+}
+
+#shareLink {
+  flex: 1;
 }

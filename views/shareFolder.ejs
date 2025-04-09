@@ -1,0 +1,21 @@
+<nav>
+    <h1>Powered by <a href="/" class="hover-link">Fosterd</a>.</h1>
+</nav>
+<main>
+    <h1><%= user.username %> shared a folder with you.</h1>
+    <h2>Expires <%= expires %></h2>
+    <% if(folder.files.length > 0) { %>
+    <div class="file shared">
+        <% folder.files.forEach((file, i) => { %>
+        <h2>&#128462; <%= file.originalName %></h2>
+        <p><%=file.formattedSize%></p>
+        <p><%=file.formattedDate%></p>
+        <a href="<%=download[i]%>">
+            <button>Download</button>
+        </a>
+        <% }); %>
+    </div>
+    <% } else { %>
+    <h1>There are no files here...</h1>
+    <% } %>
+</main>

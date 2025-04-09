@@ -80,7 +80,7 @@ exports.editFolder = [
   },
 ];
 
-function getFormatSize(size) {
+exports.getFormatSize = (size) => {
   const units = ["B", "KB", "MB", "GB", "TB", "PB"];
   let i = 0;
   while (size >= 1024 && i < units.length - 1) {
@@ -88,7 +88,7 @@ function getFormatSize(size) {
     ++i;
   }
   return `${size.toFixed(1)}${units[i]}`;
-}
+};
 
 exports.viewFolder = async (req, res) => {
   const errors = req.flash("error").map((msg) => ({ msg }));
@@ -100,7 +100,7 @@ exports.viewFolder = async (req, res) => {
   folder.files = folder.files.map((file) => ({
     ...file,
     formattedDate: format(file.uploadTime, "dd MMM yy"),
-    formattedSize: getFormatSize(file.size),
+    formattedSize: exports.getFormatSize(file.size),
   }));
 
   res.render("folder", { title: folder.name, folder, errors });

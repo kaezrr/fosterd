@@ -1,8 +1,15 @@
 <%- include("partials/navbar") %>
 <main>
+    <%if(locals.shareUrl) {%>
+    <h1>Share your folder <%=folder.name%> with the link below</h1>
+    <fieldset class="share-form link">
+    <input type="text" id="shareLink" value="<%=shareUrl%>" readonly>
+    <button onclick="copyToClipboard()">Copy Link</button>
+    </fieldset>
+    <%} else {%>
     <h1>Create a sharelink for <%= folder.name %></h1>
-    <form action="/share/create/<%=folder.id%>" method="post" class="share-form">
-        <fieldset>
+    <form action="/share/create/<%=folder.id%>" method="post" >
+        <fieldset class="share-form">
             <label for="validFor">Valid For</label>
             <select name="validFor" id="validFor">
                 <option value="3600000">1 hour</option>
@@ -14,4 +21,16 @@
             <button>Create Link</button>
         </fieldset>
     </form>
+    <%}%>
+    <%- include("partials/errors") %>
 </main>
+<script>
+function copyToClipboard() {
+    const text = document.getElementById("shareLink").value;
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Link copied to clipboard!");
+    }).catch(err => {
+      console.error("Failed to copy: ", err);
+    });
+  }
+</script>

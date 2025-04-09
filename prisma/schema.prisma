@@ -47,5 +47,5 @@ model ShareLink {
   createdAt DateTime @default(now())
   expiresAt DateTime
   folderId  Int
-  folder    Folder   @relation(fields: [folderId], references: [id])
+  folder    Folder   @relation(fields: [folderId], references: [id], onDelete: Cascade)
 }
