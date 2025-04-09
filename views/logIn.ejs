@@ -1,5 +1,5 @@
 <main class="not-logged">
-<h1>Log in to Fosterd.</h1>
+<h1>Log in to <a href="/" class="hover-link">Fosterd</a>.</h1>
 <form action="/log-in" method="post">
     <fieldset>
         <label for="username">Username</label>
@@ -7,7 +7,7 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password">
         <button>Log in</button>
-        <p>Don't have an account? <a href="/sign-up">sign up</a></p>
+        <p>Don't have an account? <a class="hover-link" href="/sign-up">sign up</a></p>
         <%- include("partials/errors") %>
     </fieldset>
 </form>

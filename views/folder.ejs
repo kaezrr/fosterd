@@ -4,9 +4,12 @@
     <h1>Your Files</h1>
     <div class="file">
         <% folder.files.forEach(file => { %>
-        <a href="/files/<%=file.id%>/download?folderId=<%=folder.id%>"><h2>&#128462; <%= file.originalName %></h2></a>
+        <h2>&#128462; <%= file.originalName %></h2>
         <p><%=file.formattedSize%></p>
         <p><%=file.formattedDate%></p>
+        <a href="/files/<%=file.id%>/download?folderId=<%=folder.id%>">
+            <button>Download</button>
+        </a>
         <a href="/files/<%=file.id%>/delete?folderId=<%=folder.id%>">
             <button onclick="return confirm('Are you sure?');">Delete</button>
         </a>

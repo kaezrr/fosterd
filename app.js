@@ -7,6 +7,7 @@ const passport = require("./controllers/passport");
 const userRouter = require("./routes/userRouter");
 const folderRouter = require("./routes/folderRouter");
 const fileRouter = require("./routes/fileRouter");
+const shareRouter = require("./routes/shareRouter");
 const expressLayouts = require("express-ejs-layouts");
 const flash = require("connect-flash");
 
@@ -37,6 +38,7 @@ App.use(flash());
 App.use("/", userRouter);
 App.use("/folders", folderRouter);
 App.use("/files", fileRouter);
+App.use("/share", shareRouter);
 
 const PORT = process.env.PORT || 3000;
 App.listen(PORT, () => console.log(`App running on port ${PORT}`));
